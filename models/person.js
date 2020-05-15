@@ -1,19 +1,19 @@
-//connect to DB
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 //check for duplicate db entries
-const uniqueValidator = require("mongoose-unique-validator");
-mongoose.set("useFindAndModify", false);
-mongoose.set("useCreateIndex", true);
+const uniqueValidator = require('mongoose-unique-validator')
+mongoose.set('useFindAndModify', false)
+mongoose.set('useCreateIndex', true)
 
-const url = process.env.MONGO_DB_URL;
+//connect to DB
+const url = process.env.MONGO_DB_URL
 mongoose
   .connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then((result) => {
-    console.log(`Succesfully connected to MongoDB.`);
+  .then(() => {
+    console.log('Succesfully connected to MongoDB.')
   })
   .catch((error) => {
-    console.log(`Error connecting to MongoDB: ${error.message}`);
-  });
+    console.log(`Error connecting to MongoDB: ${error.message}`)
+  })
 const personSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -27,17 +27,17 @@ const personSchema = new mongoose.Schema({
     minlength: 8,
     required: true,
   },
-});
+})
 
-personSchema.plugin(uniqueValidator);
+personSchema.plugin(uniqueValidator)
 
 //format object
-personSchema.set("toJSON", {
+personSchema.set('toJSON', {
   transform: (doc, returnedObj) => {
-    returnedObj.id = returnedObj._id.toString();
-    delete returnedObj._id;
-    delete returnedObj.__v;
+    returnedObj.id = returnedObj._id.toString()
+    delete returnedObj._id
+    delete returnedObj.__v
   },
-});
+})
 
-module.exports = mongoose.model("Person", personSchema);
+module.exports = mongoose.model('Person', personSchema)
